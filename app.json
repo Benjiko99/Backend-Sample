@@ -1,0 +1,5 @@
+{
+  "name": "Backend-Sample",
+  "description": "Backend for the Android-Sample app.",
+  "image": "heroku/java"
+}
