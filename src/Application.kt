@@ -7,8 +7,8 @@ import io.ktor.http.*
 import io.ktor.response.*
 import io.ktor.routing.*
 import io.ktor.server.netty.*
-import modules.conversionRatesModule
-import modules.transactionsModule
+import modules.api.conversionRatesModule
+import modules.api.transactionsModule
 import org.koin.ktor.ext.Koin
 import org.slf4j.event.Level
 import java.math.MathContext
@@ -61,8 +61,10 @@ fun Application.module(testing: Boolean = false) {
             call.respondText("Hello World!")
         }
 
-        transactionsModule()
-        conversionRatesModule()
+        route("/api/") {
+            transactionsModule()
+            conversionRatesModule()
+        }
     }
 
 }

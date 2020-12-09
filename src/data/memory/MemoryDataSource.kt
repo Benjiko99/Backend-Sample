@@ -158,11 +158,16 @@ class MemoryDataSource {
         return transactions
     }
 
-    fun saveConversionRates(baseCurrency: Currency, rates: ConversionRates) {
-        return conversionRates.set(baseCurrency, rates)
-    }
-
     fun getConversionRates(baseCurrency: Currency): ConversionRates? {
         return conversionRates[baseCurrency]
+    }
+
+    fun updateTransaction(transaction: Transaction): Transaction {
+        transactions.find { it.id == transaction.id }!!.let { found ->
+            transactions.indexOf(found).let { index ->
+                transactions.set(index, transaction)
+            }
+        }
+        return transaction
     }
 }

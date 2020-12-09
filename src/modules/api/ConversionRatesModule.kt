@@ -1,4 +1,4 @@
-package modules
+package modules.api
 
 import interactors.ConversionRatesInteractor
 import io.ktor.application.*
@@ -11,7 +11,7 @@ import java.util.*
 fun Route.conversionRatesModule() {
     val interactor by inject<ConversionRatesInteractor>()
 
-    get("/conversion_rates") {
+    get("conversion-rates") {
         val baseCurrency = call.request.queryParameters["baseCurrency"]
 
         if (baseCurrency == null) {
