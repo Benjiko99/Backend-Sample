@@ -1,6 +1,7 @@
 package data.memory
 
 import App
+import data.memory.exceptions.EntityNotFoundException
 import models.*
 import java.math.BigDecimal
 import java.time.ZonedDateTime
@@ -156,6 +157,11 @@ class MemoryDataSource {
 
     fun getTransactions(): List<Transaction> {
         return transactions
+    }
+
+    fun getTransaction(id: Int): Transaction {
+        return transactions.find { it.id == id }
+            ?: throw EntityNotFoundException(id)
     }
 
     fun getConversionRates(baseCurrency: Currency): ConversionRates? {

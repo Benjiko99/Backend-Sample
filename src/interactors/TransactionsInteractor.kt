@@ -1,7 +1,7 @@
 package interactors
 
-import models.Transaction
 import data.memory.MemoryDataSource
+import models.Transaction
 import models.TransactionCategory
 
 class TransactionsInteractor(
@@ -12,21 +12,22 @@ class TransactionsInteractor(
         return memory.getTransactions()
     }
 
-    fun getTransaction(id: Int): Transaction? {
-        return getTransactions().find { it.id == id }
+    fun getTransaction(id: Int): Transaction {
+        return memory.getTransaction(id)
     }
 
-    fun updateTransactionNote(id: Int, note: String): Transaction {
-        val transaction = getTransaction(id)!!.copy(noteToSelf = note)
-        return updateTransaction(transaction)
+    fun patchTransactionNote(id: Int, note: String): Transaction {
+        val noteOrNull = if (note.isNotBlank()) note else null
+        val patched = getTransaction(id).copy(noteToSelf = noteOrNull)
+        return putTransaction(patched)
     }
 
-    fun updateTransactionCategory(id: Int, category: TransactionCategory): Transaction {
-        val transaction = getTransaction(id)!!.copy(category = category)
-        return updateTransaction(transaction)
+    fun patchTransactionCategory(id: Int, category: TransactionCategory): Transaction {
+        val patched = getTransaction(id).copy(category = category)
+        return putTransaction(patched)
     }
 
-    private fun updateTransaction(transaction: Transaction): Transaction {
+    private fun putTransaction(transaction: Transaction): Transaction {
         return memory.updateTransaction(transaction)
     }
 

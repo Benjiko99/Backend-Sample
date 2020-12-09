@@ -1,5 +1,6 @@
 package modules.api
 
+import data.memory.exceptions.EntityNotFoundException
 import interactors.TransactionsInteractor
 import io.ktor.application.*
 import io.ktor.http.HttpStatusCode.Companion.BadRequest
@@ -21,7 +22,7 @@ fun Route.transactionsModule() {
                 call.respond(mapOf("items" to interactor.getTransactions()))
             } catch (e: Exception) {
                 application.log.error(e)
-                call.respond(InternalServerError)
+                call.respond(InternalServerError, e.toString())
             }
         }
 
@@ -29,11 +30,14 @@ fun Route.transactionsModule() {
             try {
                 val id = call.parameters["id"]!!.toInt()
                 val note = call.receiveText().removeSurrounding("\"")
-                val transaction = interactor.updateTransactionNote(id, note)
+                val transaction = interactor.patchTransactionNote(id, note)
                 call.respond(transaction)
+            } catch (e: EntityNotFoundException) {
+                application.log.info(e.message)
+                call.respond(BadRequest, e.toString())
             } catch (e: Exception) {
                 application.log.error(e)
-                call.respond(InternalServerError)
+                call.respond(InternalServerError, e.toString())
             }
         }
 
@@ -41,14 +45,17 @@ fun Route.transactionsModule() {
             try {
                 val id = call.parameters["id"]!!.toInt()
                 val category = call.receive<TransactionCategory>()
-                val transaction = interactor.updateTransactionCategory(id, category)
+                val transaction = interactor.patchTransactionCategory(id, category)
                 call.respond(transaction)
             } catch (e: ContentTransformationException) {
                 application.log.info(e.message)
                 call.respond(BadRequest, "Category has to be one of: ${TransactionCategory.values().allNames}")
+            } catch (e: EntityNotFoundException) {
+                application.log.info(e.message)
+                call.respond(BadRequest, e.toString())
             } catch (e: Exception) {
                 application.log.error(e)
-                call.respond(InternalServerError)
+                call.respond(InternalServerError, e.toString())
             }
         }
     }
