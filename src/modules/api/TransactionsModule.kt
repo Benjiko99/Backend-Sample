@@ -3,15 +3,14 @@ package modules.api
 import data.memory.exceptions.EntityNotFoundException
 import interactors.TransactionsInteractor
 import io.ktor.application.*
-import io.ktor.http.HttpStatusCode.Companion.BadRequest
-import io.ktor.http.HttpStatusCode.Companion.InternalServerError
 import io.ktor.request.*
 import io.ktor.response.*
 import io.ktor.routing.*
-import io.ktor.util.*
 import models.TransactionCategory
 import org.koin.ktor.ext.inject
 import utils.allNames
+import utils.respondBadRequest
+import utils.respondServerError
 
 fun Route.transactionsModule() {
     val interactor by inject<TransactionsInteractor>()
@@ -21,8 +20,7 @@ fun Route.transactionsModule() {
             try {
                 call.respond(mapOf("items" to interactor.getTransactions()))
             } catch (e: Exception) {
-                application.log.error(e)
-                call.respond(InternalServerError, e.toString())
+                call.respondServerError(e)
             }
         }
 
@@ -33,11 +31,9 @@ fun Route.transactionsModule() {
                 val transaction = interactor.patchTransactionNote(id, note)
                 call.respond(transaction)
             } catch (e: EntityNotFoundException) {
-                application.log.info(e.message)
-                call.respond(BadRequest, e.toString())
+                call.respondBadRequest(e)
             } catch (e: Exception) {
-                application.log.error(e)
-                call.respond(InternalServerError, e.toString())
+                call.respondServerError(e)
             }
         }
 
@@ -48,14 +44,11 @@ fun Route.transactionsModule() {
                 val transaction = interactor.patchTransactionCategory(id, category)
                 call.respond(transaction)
             } catch (e: ContentTransformationException) {
-                application.log.info(e.message)
-                call.respond(BadRequest, "Category has to be one of: ${TransactionCategory.values().allNames}")
+                call.respondBadRequest(e, "Category has to be one of: ${TransactionCategory.values().allNames}")
             } catch (e: EntityNotFoundException) {
-                application.log.info(e.message)
-                call.respond(BadRequest, e.toString())
+                call.respondBadRequest(e)
             } catch (e: Exception) {
-                application.log.error(e)
-                call.respond(InternalServerError, e.toString())
+                call.respondServerError(e)
             }
         }
     }

@@ -4,11 +4,11 @@ import interactors.ConversionRatesInteractor
 import io.ktor.application.*
 import io.ktor.http.*
 import io.ktor.http.HttpStatusCode.Companion.BadRequest
-import io.ktor.http.HttpStatusCode.Companion.InternalServerError
 import io.ktor.http.HttpStatusCode.Companion.NotFound
 import io.ktor.response.*
 import io.ktor.routing.*
 import org.koin.ktor.ext.inject
+import utils.respondServerError
 import java.util.*
 
 fun Route.conversionRatesModule() {
@@ -32,7 +32,7 @@ fun Route.conversionRatesModule() {
 
             call.respond(conversionRates)
         } catch (e: Exception) {
-            call.respond(InternalServerError, e.toString())
+            call.respondServerError(e)
         }
     }
 }
