@@ -26,7 +26,7 @@ fun Route.transactionsModule() {
 
         patch("{id}/note") {
             try {
-                val id = call.parameters["id"]!!.toInt()
+                val id = call.parameters["id"]!!
                 val note = call.receiveText().removeSurrounding("\"")
                 val transaction = interactor.patchTransactionNote(id, note)
                 call.respond(transaction)
@@ -39,7 +39,7 @@ fun Route.transactionsModule() {
 
         patch("{id}/category") {
             try {
-                val id = call.parameters["id"]!!.toInt()
+                val id = call.parameters["id"]!!
                 val category = call.receive<TransactionCategory>()
                 val transaction = interactor.patchTransactionCategory(id, category)
                 call.respond(transaction)

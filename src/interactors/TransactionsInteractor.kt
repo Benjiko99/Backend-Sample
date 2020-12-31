@@ -12,17 +12,17 @@ class TransactionsInteractor(
         return memory.getTransactions()
     }
 
-    fun getTransaction(id: Int): Transaction {
+    fun getTransaction(id: String): Transaction {
         return memory.getTransaction(id)
     }
 
-    fun patchTransactionNote(id: Int, note: String): Transaction {
+    fun patchTransactionNote(id: String, note: String): Transaction {
         val noteOrNull = if (note.isNotBlank()) note else null
         val patched = getTransaction(id).copy(noteToSelf = noteOrNull)
         return putTransaction(patched)
     }
 
-    fun patchTransactionCategory(id: Int, category: TransactionCategory): Transaction {
+    fun patchTransactionCategory(id: String, category: TransactionCategory): Transaction {
         val patched = getTransaction(id).copy(category = category)
         return putTransaction(patched)
     }

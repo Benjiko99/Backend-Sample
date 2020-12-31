@@ -11,7 +11,7 @@ class MemoryDataSource {
 
     private val transactions = mutableListOf(
         Transaction(
-            1,
+            "1",
             "Paypal *Epic Games",
             ZonedDateTime.parse("2020-07-15T20:45:00+00:00"),
             Money(BigDecimal(59.99, App.mathContext), Currency.getInstance("EUR")),
@@ -27,7 +27,7 @@ class MemoryDataSource {
             "Red Dead Redemption 2",
         ),
         Transaction(
-            2,
+            "2",
             "Paypal *Epic Games",
             ZonedDateTime.parse("2020-07-15T20:41:00+00:00"),
             Money(BigDecimal(59.99, App.mathContext), Currency.getInstance("EUR")),
@@ -40,7 +40,7 @@ class MemoryDataSource {
             "Red Dead Redemption 2",
         ),
         Transaction(
-            3,
+            "3",
             "Payment from Dean-Charles Chapman",
             ZonedDateTime.parse("2020-07-15T10:00:00+00:00"),
             Money(BigDecimal(100, App.mathContext), Currency.getInstance("EUR")),
@@ -50,7 +50,7 @@ class MemoryDataSource {
             TransactionStatusCode.SUCCESSFUL,
         ),
         Transaction(
-            4,
+            "4",
             "Take-out Burger",
             ZonedDateTime.parse("2020-07-15T09:30:56+00:00"),
             Money(BigDecimal(5.49, App.mathContext), Currency.getInstance("USD")),
@@ -62,7 +62,7 @@ class MemoryDataSource {
             "VISA **9400",
         ),
         Transaction(
-            5,
+            "5",
             "PlayStation Store",
             ZonedDateTime.parse("2020-06-19T09:00:00+00:00"),
             Money(BigDecimal(1699, App.mathContext), Currency.getInstance("CZK")),
@@ -79,7 +79,7 @@ class MemoryDataSource {
             "The Last of Us Part 2"
         ),
         Transaction(
-            6,
+            "6",
             "Rent Payment",
             ZonedDateTime.parse("2020-05-28T12:32:56+00:00"),
             Money(BigDecimal(400, App.mathContext), Currency.getInstance("EUR")),
@@ -91,7 +91,7 @@ class MemoryDataSource {
             "VISA **9400",
         ),
         Transaction(
-            7,
+            "7",
             "Birthday Gift",
             ZonedDateTime.parse("2020-05-25T15:42:56+00:00"),
             Money(BigDecimal(80, App.mathContext), Currency.getInstance("USD")),
@@ -102,7 +102,7 @@ class MemoryDataSource {
             emptyList(),
         ),
         Transaction(
-            8,
+            "8",
             "Groceries",
             ZonedDateTime.parse("2020-05-25T12:33:24+00:00"),
             Money(BigDecimal(15.49, App.mathContext), Currency.getInstance("EUR")),
@@ -114,7 +114,7 @@ class MemoryDataSource {
             "VISA **9400",
         ),
         Transaction(
-            9,
+            "9",
             "Groceries",
             ZonedDateTime.parse("2020-05-24T14:24:56+00:00"),
             Money(BigDecimal(17.49, App.mathContext), Currency.getInstance("EUR")),
@@ -158,7 +158,7 @@ class MemoryDataSource {
         return transactions
     }
 
-    fun getTransaction(id: Int): Transaction {
+    fun getTransaction(id: String): Transaction {
         return transactions.find { it.id == id }
             ?: throw EntityNotFoundException(id)
     }

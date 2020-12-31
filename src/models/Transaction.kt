@@ -3,7 +3,7 @@ package models
 import java.time.ZonedDateTime
 
 data class Transaction(
-    val id: Int,
+    val id: String,
     val name: String,
     val processingDate: ZonedDateTime,
     val money: Money,
