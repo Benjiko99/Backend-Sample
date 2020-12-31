@@ -60,7 +60,6 @@ class MemoryDataSource {
             TransactionStatusCode.SUCCESSFUL,
             emptyList(),
             "VISA **9400",
-            "Red Dead Redemption 2",
         ),
         Transaction(
             5,
